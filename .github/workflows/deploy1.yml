@@ -1,0 +1,36 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Hacer checkout del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Paso 2: Configurar la clave SSH para conectar con las EC2
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 3.87.185.241 >> ~/.ssh/known_hosts
+
+      # Paso 3: Desplegar los archivos en la instancia de QA (push en test)
+      - name: Deploy to QA (if test branch)
+        if: github.ref == 'refs/heads/test'
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@3.87.185.241 << 'EOF'
+            cd /home/ec2-user/Html-Balance || git clone https://github.com/lessalcu/Html-Balance.git
+            cd Html-Balance
+            git pull origin test
+            sudo cp index.html /var/www/html/
+            sudo systemctl restart nginx
+          EOF
