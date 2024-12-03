@@ -38,7 +38,7 @@ jobs:
       # Paso 4: Desplegar los archivos en la segunda instancia EC2
       - name: Deploy to Instance 2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@53.208.9.148 << 'EOF'
+          ssh -o StrictHostKeyChecking=no ec2-user@3.208.9.148 << 'EOF'
             cd /home/ec2-user/HTML || git clone https://github.com/mayjade002/HTML.git
             cd HTML
             git pull origin main  # Actualizar los archivos del repositorio
