@@ -46,7 +46,7 @@ jobs:
             sudo cp index.html /var/www/html/  # Copiar index.html al directorio de Nginx
             sudo systemctl restart nginx  # Reiniciar Nginx
           EOF
-           # Paso 4: Desplegar los archivos en la segunda instancia EC2
+       # Paso 4: Desplegar los archivos en la segunda instancia EC2
       - name: Deploy to Instance 3
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@3.86.97.181 << 'EOF'
@@ -56,3 +56,14 @@ jobs:
             sudo cp index.html /var/www/html/  # Copiar index.html al directorio de Nginx
             sudo systemctl restart nginx  # Reiniciar Nginx
           EOF
+       # Paso 4: Desplegar los archivos en la segunda instancia EC2
+      - name: Deploy to Instance 4
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@3.87.185.241 << 'EOF'
+            cd /home/ec2-user/HTML || git clone https://github.com/mayjade002/HTML.git
+            cd HTML
+            git pull origin main  # Actualizar los archivos del repositorio
+            sudo cp index.html /var/www/html/  # Copiar index.html al directorio de Nginx
+            sudo systemctl restart nginx  # Reiniciar Nginx
+          EOF
+          
