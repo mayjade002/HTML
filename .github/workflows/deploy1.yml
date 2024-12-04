@@ -28,8 +28,10 @@ jobs:
         if: github.ref == 'refs/heads/test'
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@54.175.106.1 << 'EOF'
+
             cd /home/ec2-user/Html-Balance || git clone https://github.com/mayjade002/HTML.git
             cd HTML
+
             git pull origin test
             sudo cp index.html /var/www/html/
             sudo systemctl restart nginx
