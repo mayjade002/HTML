@@ -27,7 +27,7 @@ jobs:
       - name: Deploy to QA (if test branch)
         if: github.ref == 'refs/heads/test'
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@3.87.185.241 << 'EOF'
+          ssh -o StrictHostKeyChecking=no ec2-user@54.175.106.1 << 'EOF'
             cd /home/ec2-user/Html-Balance || git clone https://github.com/lessalcu/Html-Balance.git
             cd Html-Balance
             git pull origin test
